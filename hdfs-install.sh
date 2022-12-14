@@ -181,6 +181,10 @@ path_add() {
   if [ -d "$1" ] && [[ ":$PATH:" != *":$1:"* ]]; then
     PATH="${PATH:+"$PATH:"}$1"
     echo "export PATH=$PATH" >>~/.bashrc
+    source ~/.bashrc || {
+      echo "Cannot re-source ~/.bashrc"
+      exit 1
+    }
   fi
 }
 
