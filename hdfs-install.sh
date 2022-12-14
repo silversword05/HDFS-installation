@@ -136,77 +136,6 @@ set_hdfs_dirs_conf_all() {
   ssh -tt node2 "$(declare -f set_hdfs_dirs_conf); set_hdfs_dirs_conf"
 }
 
-set_hdfs_replication_factor() {
-  cd /mnt/data/hadoop-3.3.4/etc/hadoop || {
-    echo 'Failed to find /mnt/data/hadoop-3.3.4/etc/hadoop'
-    exit 1
-  }
-  xmlstarlet ed --pf --inplace \
-    -s "/configuration" -t elem -n "property2" -v "" \
-    -s "//property2" -t elem -n "name" -v "dfs.replication" \
-    -s "//property2" -t elem -n "value" -v "$1" \
-    hdfs-site.xml
-  xmlstarlet ed --pf --inplace -r "//property2" -v "property" hdfs-site.xml
-  xmlstarlet ed -L -O hdfs-site.xml
-}
-
-set_hdfs_replication_factor_all() {
-  set_hdfs_replication_factor ${REPLICATION_FAC}
-  ssh -tt node1 "$(declare -f set_hdfs_replication_factor); set_hdfs_replication_factor ${REPLICATION_FAC}"
-  ssh -tt node2 "$(declare -f set_hdfs_replication_factor); set_hdfs_replication_factor ${REPLICATION_FAC}"
-}
-
-set_hdfs_datanode_stale_interval() {
-  cd /mnt/data/hadoop-3.3.4/etc/hadoop || {
-    echo 'Failed to find /mnt/data/hadoop-3.3.4/etc/hadoop'
-    exit 1
-  }
-  xmlstarlet ed --pf --inplace \
-    -s "/configuration" -t elem -n "property2" -v "" \
-    -s "//property2" -t elem -n "name" -v "dfs.namenode.heartbeat.recheck-interval" \
-    -s "//property2" -t elem -n "value" -v "$1" \
-    hdfs-site.xml
-  xmlstarlet ed --pf --inplace -r "//property2" -v "property" hdfs-site.xml
-  xmlstarlet ed -L -O hdfs-site.xml
-}
-
-set_hdfs_datanode_stale_interval_all() {
-  set_hdfs_datanode_stale_interval "${HEART_BEAT_INTERVAL}"
-  ssh -tt node1 "$(declare -f set_hdfs_datanode_stale_interval); set_hdfs_datanode_stale_interval ${HEART_BEAT_INTERVAL}"
-  ssh -tt node2 "$(declare -f set_hdfs_datanode_stale_interval); set_hdfs_datanode_stale_interval ${HEART_BEAT_INTERVAL}"
-}
-
-set_checkpoint_parameters() {
-  cd /mnt/data/hadoop-3.3.4/etc/hadoop || {
-    echo 'Failed to find /mnt/data/hadoop-3.3.4/etc/hadoop'
-    exit 1
-  }
-  CHECKPOINT_DIR=/mnt/data/hadoop-3.3.4/name-node-checkpoint
-  mkdir -p "${CHECKPOINT_DIR}" || {
-    echo "Cannot create checkpoint dir"
-    exit 1
-  }
-  xmlstarlet ed --pf --inplace \
-    -s "/configuration" -t elem -n "property2" -v "" \
-    -s "//property2" -t elem -n "name" -v "dfs.namenode.checkpoint.dir" \
-    -s "//property2" -t elem -n "value" -v "${CHECKPOINT_DIR}" \
-    hdfs-site.xml
-  xmlstarlet ed --pf --inplace -r "//property2" -v "property" hdfs-site.xml
-  xmlstarlet ed --pf --inplace \
-    -s "/configuration" -t elem -n "property2" -v "" \
-    -s "//property2" -t elem -n "name" -v "dfs.namenode.checkpoint.period" \
-    -s "//property2" -t elem -n "value" -v "$1" \
-    hdfs-site.xml
-  xmlstarlet ed --pf --inplace -r "//property2" -v "property" hdfs-site.xml
-  xmlstarlet ed -L -O hdfs-site.xml
-}
-
-set_checkpoint_parameters_all() {
-  set_checkpoint_parameters "${CHECKPOINT_INTERVAL}"
-  ssh -tt node1 "$(declare -f set_checkpoint_parameters); set_checkpoint_parameters ${CHECKPOINT_INTERVAL}"
-  ssh -tt node2 "$(declare -f set_checkpoint_parameters); set_checkpoint_parameters ${CHECKPOINT_INTERVAL}"
-}
-
 set_java_path() {
   JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64/jre
   CNT=$(update-alternatives --display java | grep -c "${JAVA_HOME}")
@@ -292,9 +221,6 @@ main() {
   apache_download_all
   set_hdfs_ip_conf_all
   set_hdfs_dirs_conf_all
-  set_hdfs_replication_factor_all
-  set_hdfs_datanode_stale_interval_all
-  set_checkpoint_parameters_all
   set_java_path_all
   set_worker_ips_all
   format_and_start_dfs
@@ -306,12 +232,9 @@ case $1 in
 3) apache_download_all ;;
 4) set_hdfs_ip_conf_all ;;
 5) set_hdfs_dirs_conf_all ;;
-6) set_hdfs_replication_factor_all ;;
-7) set_hdfs_datanode_stale_interval_all ;;
-8) set_checkpoint_parameters_all ;;
-9) set_java_path_all ;;
-10) set_worker_ips_all ;;
-11) format_and_start_dfs ;;
+6) set_java_path_all ;;
+7) set_worker_ips_all ;;
+8) format_and_start_dfs ;;
 all)
   echo "Executing all"
   main "$2"
