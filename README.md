@@ -20,7 +20,7 @@ An example is shown below.
 ```
 
 ## HDFS-installation
-This script is aimed at installation of HDFS in all the nodes. 
+This script is aimed at installation of HDFS in all the nodes. **This script will kill all current HDFS processs on all nodes and format `/mnt/data`.**
 
 - Copy the script to `node0` or master (**Both should be same**). This node will be where the primary namenode will be running. 
 - Run `lsblk` on all the three nodes and ensure that `xvad4` is the disk to be mounted.
@@ -40,3 +40,5 @@ This script is aimed at installation of HDFS in all the nodes.
 - It is preferable that this script is executed from one particular user only. Setting `ssh keys` from one user and running the script from another user will be problematic. Please use only one user-login if possible.
 - Run `cat /mnt/data/hadoop-3.3.4/etc/hadoop/hdfs-site.xml` on all nodes to see if HDFS properties are set correctly.
 - Run `cat /mnt/data/hadoop-3.3.4/etc/hadoop/core-site.xml` on all nodes to see if the namenode IP is set correctly
+
+#### You still have to install Apache Spark. This only installs Apache Hadoop.
