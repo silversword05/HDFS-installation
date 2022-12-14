@@ -2,9 +2,6 @@
 trap "exit" INT
 
 LOCAL_IP=$(ifconfig | grep "inet" | grep "10.10" | xargs | cut -d " " -f 2)
-REPLICATION_FAC=2
-HEART_BEAT_INTERVAL=15000
-CHECKPOINT_INTERVAL=120
 
 java_install() {
   sudo apt update -y
