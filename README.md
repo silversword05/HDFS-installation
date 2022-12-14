@@ -6,7 +6,7 @@ This script is aimed at setting up the SSH keys in the servers so the slaves/chi
 
 - **Master should always be node0.**
 - **This script should be run from your local computer which has ssh access to the cloudlab machines.**
-- After the script completes, ensure that you can ssh to the slave nodes from the master. Also, ensure that slaves are added to the ssh `known_hosts` of the master.
+- After the script completes, ensure that you can ssh to the slave nodes from the master. Also, ensure that slaves are added to the ssh `known_hosts` of the master. You can do that by executing `ssh node1` and `ssh node2` from `node0`.
 - **Optional** You can also disable SSH strict host checking by adding these lines in `~/.ssh/config`.
 ```
 Host *
