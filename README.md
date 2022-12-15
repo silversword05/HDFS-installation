@@ -15,8 +15,8 @@ Host *
 
 An example is shown below.
 ```
- For login ssh command ssh -p 27010 amondal5@clnode136.clemson.cloudlab.us
- replacement (27010 amondal5@clnode136.clemson.cloudlab.us)
+ For login ssh command ssh -p 27010 cloudlab@clnode136.clemson.cloudlab.us
+ replacement (27010 cloudlab@clnode136.clemson.cloudlab.us)
 ```
 
 ## HDFS-installation
