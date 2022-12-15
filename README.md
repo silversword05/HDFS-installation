@@ -36,7 +36,7 @@ This script is aimed at installation of HDFS in all the nodes. **This script wil
 - It is advisable to gloss through the script before executing.
 - The script can be executed in sections. Follow the switch case options and execute functions one by one to spot the error.
 - **The script will format the entire xvad4 partition. Copy any readings or other important files that might be in `/mnt/data`. Your home directory is a safe place for backups.**
-- The script can figure out the master IP on it's own. Enusre that the master IP is found correctly by executing `ifconfig | grep "inet" | grep "10.10" | xargs | cut -d " " -f 2` and comparing it with the expected value. If not working as expected, replace `LOCAL_IP` with the expected value in the installation script. Also perform siilar replacements in `set_worker_ips_all` function of the installation script.
+- The script can figure out the master IP on it's own. Enusre that the master IP is found correctly by executing `ifconfig | grep "inet" | grep "10.10" | xargs | cut -d " " -f 2` and comparing it with the expected value. If not working as expected, replace `LOCAL_IP` with the expected value in the installation script. Also perform similar replacements in `set_worker_ips_all` function of the installation script.
 - It is preferable that this script is executed from one particular user only. Setting `ssh keys` from one user and running the script from another user will be problematic. Please use only one user-login if possible.
 - Run `cat /mnt/data/hadoop-3.3.4/etc/hadoop/hdfs-site.xml` on all nodes to see if HDFS properties are set correctly.
 - Run `cat /mnt/data/hadoop-3.3.4/etc/hadoop/core-site.xml` on all nodes to see if the namenode IP is set correctly
