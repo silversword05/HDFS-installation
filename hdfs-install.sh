@@ -79,7 +79,7 @@ set_hdfs_ip_conf() {
     xmlstarlet ed --pf --inplace \
       -s "/configuration" -t elem -n "property" -v "" \
       -s "//property" -t elem -n "name" -v "fs.default.name" \
-      -s "//property" -t elem -n "value" -v "$1" \
+      -s "//property" -t elem -n "value" -v "hdfs://$1:9000" \
       core-site.xml
     xmlstarlet ed -L -O core-site.xml
   else
@@ -109,7 +109,7 @@ set_hdfs_dirs_conf() {
     echo 'Failed to find /mnt/data/hadoop-3.3.4/etc/hadoop'
     exit 1
   }
-  CONF_SET=$(grep -c "dfs.namenode.name.dir" core-site.xml | sed 's/[^0-9]*//g')
+  CONF_SET=$(grep -c "dfs.namenode.name.dir" hdfs-site.xml | sed 's/[^0-9]*//g')
   if [[ $CONF_SET -eq 0 ]]; then
     xmlstarlet ed --pf --inplace \
       -s "/configuration" -t elem -n "property" -v "" \
